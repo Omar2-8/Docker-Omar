@@ -1,0 +1,63 @@
+version: "3.8"
+
+services:
+  authservice:
+    build: ./AuthenticationService
+    ports:
+      - "49100:80"
+
+  enter-data-frontend:
+    build: ./EnterData/Enter-Data
+    ports:
+      - "4200:4200"
+    depends_on:
+      - authservice
+
+  enter-data-backend:
+    build: ./EnterData/Enter-Data-BackEnd
+    ports:
+      - "49500:80"
+    depends_on:
+      - db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+
+  db:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    ports:
+      - "1433:1433"
+
+    environment:
+      MSSQL_SA_PASSWORD: "Omarsupersecret88#"
+      ACCEPT_EULA: "Y"
+
+  analytics:
+    build:
+      context: ./AnalyticsServices/Analytics
+    ports:
+      - "49400:80"
+    depends_on:
+      - db
+      - db1
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+
+  db1:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    ports:
+      - "1435:1435"
+
+    environment:
+      MSSQL_SA_PASSWORD: "Omarsupersecret88#"
+      ACCEPT_EULA: "Y"
+
+  show-result:
+    build:
+      context: ./ShowResult
+    ports:
+      - "49200:80"
+    depends_on:
+      - db1
+      - authservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development

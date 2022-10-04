@@ -1,0 +1,26 @@
+﻿@model Show_Result.Models.Login
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+ 
+ <form asp-action="Login"
+ asp-controller="Home" class="mx-1 mx-md-4"> 
+           
+            <div class="">
+                 <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                <label asp-for="Email" class="flex-fill mb-0 control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="">
+                 <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                 <label asp-for="Password" class=" d-flex flex-row align-items-center mb-4"></label>
+                <input asp-for="Password" type="password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            
+            <div class="">
+                <input type="submit" value="Login" class="btn btn-primary btn-lg" />
+            </div>
+        </form>
